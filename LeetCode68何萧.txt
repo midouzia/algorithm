@@ -1,0 +1,66 @@
+char* spaces(int a){
+    char *spa=(char*)malloc(sizeof(char)*(a+1));
+    for(int i=0;i<a;i++)
+        spa[i]=' ';
+    spa[a]='\0';
+    return spa;
+}
+char ** fullJustify(char ** words, int wordsSize, int maxWidth, int* returnSize){
+    int len=0,sum=0,start=0,spa=0,k=0,h=0,ss=0,s=0;
+    char **ans=(char**)malloc(sizeof(char*)*wordsSize);
+    for(int i=0;i<wordsSize;i++){
+        if(len+strlen(words[i])<=maxWidth-sum){
+            len+=strlen(words[i]);
+            sum++;
+        }
+        else{
+            spa=maxWidth-len;
+            if(sum>1){
+               h=spa/(sum-1);
+               ss=spa%(sum-1);
+               s=spa-ss;
+            }
+            else{
+                s=spa;
+                h=spa;
+                ss=0;
+            }
+            ans[k]=(char*)malloc(sizeof(char)*(maxWidth+1));
+            ans[k][0]='\0';
+            for(int j=start;j<i;j++){
+                strcat(ans[k],words[j]);
+                if(s>0){
+                    strcat(ans[k],spaces(h));
+                    s-=h;
+                }
+                if(ss>0){
+                    strcat(ans[k],spaces(1));
+                    ss-=1;
+                }        
+            }
+            ans[k][maxWidth]='\0';
+            len=strlen(words[i]);
+            k++;
+            start=i;
+            sum=1;
+        }
+    }
+    spa=maxWidth-len;
+    ans[k]=(char*)malloc(sizeof(char)*(maxWidth+1));
+    ans[k][0]='\0';
+    for(int j=start;j<wordsSize;j++){      
+        strcat(ans[k],words[j]);
+        if(j==wordsSize-1){
+            strcat(ans[k],spaces(spa));
+            spa=0;
+        }
+        else if(spa>0){
+            strcat(ans[k],spaces(1));
+            spa--;
+        }     
+    }
+    ans[k][maxWidth]='\0';
+    k+=1;
+    *returnSize=k;
+    return ans;
+}

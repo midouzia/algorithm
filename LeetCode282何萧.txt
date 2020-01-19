@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<string> addOperators(string num, int target) {
+        vector<string> ans;
+        dfs(num,target,0,"",0,0,&ans);
+        return ans;
+    }
+private:
+    void dfs(const string& num,const int target,int iin,const string& exp, long prev, long ss, vector<string>* ans){
+        if (iin==num.length()&&ss==target) {
+            ans->push_back(exp);
+            return;
+        }
+        for(int i=1;i<=num.size()-iin;i++){
+            string t=num.substr(iin,i);
+            if(t.length()>1&&t[0]=='0')
+                break; 
+            long n = stol(t);
+            if(iin==0){
+                dfs(num,target,i,t,n,n,ans);
+                continue;
+            }
+            dfs(num,target,iin+i,exp+"+"+t,n,ss+n,ans);
+            dfs(num,target,iin+i,exp+"-"+t,-n,ss-n,ans);
+            dfs(num,target,iin+i,exp+"*"+t,prev*n,ss-prev+prev*n,ans);
+        }
+    }
+};
