@@ -1,0 +1,18 @@
+#define SUM_ (200001)
+#define MAX(a, b) (a>b?a:b)
+int leastBricks(int **wall, int wallSize, int *wallColSize){
+    if (wall==NULL||wallSize==0||wallColSize==NULL) {
+        return 0;
+    }
+    int a[SUM_]={0};
+    int max=0;
+    for(int i=0;i<wallSize;i++){
+        int sum=0;
+        for (int j=0;j<wallColSize[i]-1;j++) {
+            sum+=wall[i][j];
+            a[sum]++;
+            max=MAX(a[sum],max);
+        }
+    }
+    return (wallSize-max);
+}

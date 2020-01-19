@@ -1,0 +1,41 @@
+#define LEN 1000
+void dfs(char**ans,int l,int r,char* ss,char* s,int len,int *lev,int f){
+    int i,ll,j=0,leng=0;
+    int p=r;
+    if(f==3){
+        ll=strlen(s+l);
+        ss[r]='\0';
+        sscanf(s+l,"%d",&j);
+        if(j>255||ll>3||ll==0)
+            return ;
+        if(ll==2&&j<10)
+            return ;
+        if(ll==3&&j<100)
+            return ;
+        ss[r]='\0';
+        strcat(ss,s+l);
+        ans[*lev]=(char *)malloc(sizeof(char)*(len+5));
+        strcpy(ans[*lev],ss);
+        (*lev)++;
+        return ;
+    }
+    for(i=l;i<l+3&&i<len;i++){
+        ss[r++]=s[i];
+        ss[r]='.';
+        sscanf(ss+p,"%d",&j);
+        leng=i-l;
+        if(j>255)
+            return ;
+        if(leng==1&&j<10)
+            return ;
+        dfs(ans,i+1,r+1,ss,s,len,lev,f+1);
+    }
+}
+char ** restoreIpAddresses(char * s, int* returnSize){
+    char **ans= (char **)malloc(sizeof(char*)*LEN);
+    int lev=0,f=0,len=strlen(s),l=0,r=0;
+    char *ss = (char *)malloc(sizeof(char) * (len + 5));
+    dfs(ans,l,r,ss,s,len,&lev,f);
+    *returnSize=lev;
+    return ans;
+}

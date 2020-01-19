@@ -1,0 +1,22 @@
+double champagneTower(int poured, int query_row, int query_glass){//i,j
+    double **line=malloc(sizeof(double*)*(query_row+1));
+    for(int i=0;i<query_row+1;i++)
+        line[i]=malloc(sizeof(double)*(i+1));
+    line[0][0]=poured;
+    for(int i=1;i<query_row+1;i++){
+        for(int j=0,k=i;j<=k;j++,k--){
+            if(j==0){
+                if(line[i-1][0]>1)
+                    line[i][j]=line[i][k]=(line[i-1][0]-1)/2;
+                else
+                    line[i][j]=line[i][k]=0;
+            }
+            else{
+                double l=(line[i-1][j-1]>1)?(line[i-1][j-1]-1)/2:0;
+                double r=(line[i-1][j]>1)?(line[i-1][j]-1)/2:0;
+                line[i][j]=line[i][k]=l+r;
+            }
+        }
+    }
+    return (line[query_row][query_glass]>1)?1:line[query_row][query_glass];
+}
