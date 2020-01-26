@@ -1,0 +1,10 @@
+int clumsy(int N){
+    char a[4]={1,2,2,-1};
+    if(N<=2)
+        return N;
+    if(N>2&&N<=4)
+        return N+3;
+    if(N>4)
+        return N+a[N%4];
+    return 0;
+}

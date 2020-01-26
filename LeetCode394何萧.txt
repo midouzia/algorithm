@@ -1,0 +1,29 @@
+class Solution {
+    public: string decodeString(string s) {
+        int i=0;       
+        return decodeString (s,i); 
+    }        
+    string decodeString(string& s, int& i){
+        string ans= "";               
+        while (i<s.size()&&s[i]!=']'){
+            if ((s[i]>='a'&&s[i]<='z')||(s[i]>='A'&&s[i]<='Z')){
+                ans+=s[i];
+                i++;
+            }           
+            else{
+                int times=0;
+                while (i<s.size()&&s[i]>='0'&&s[i]<='9'){            
+                    times=times*10+s[i]-48;    
+                    i++;                
+                }                
+                i++;           
+                string a=decodeString(s,i);    
+                i++;            
+                while(times--){                  
+                    ans+=a;                
+                }            
+            }        
+        }       
+    return ans;
+    }
+};

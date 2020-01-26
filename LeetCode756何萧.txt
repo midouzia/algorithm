@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool pyramidTransition(string bottom, vector<string>& allowed) {
+        unordered_set<string> ans(allowed.begin(),allowed.end());
+        return dfs(bottom,"",ans);
+    }
+    bool dfs(string &nows,string nexts,unordered_set<string> &ans){
+        int n=nows.size(),m=nexts.size();
+        if(n==1)
+            return true;
+        if(n-m>1){
+            string t=nows.substr(m,2);
+            for(char ii='A';ii<'H';++ii){
+                auto one=ans.find(t+ii);
+                if(one!=ans.end()&&dfs(nows,nexts+(*one)[2],ans)){
+                    return true;
+                }
+            }
+            return false;
+        }
+        else
+            return dfs(nexts,"",ans);
+    }
+};

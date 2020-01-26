@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(t.size()>s.size())
+            return "";
+        string ans="";
+        int l=0,r=0,count=0,n=s.size()+1;
+        int x[256]={0},m[256]={0};
+        for(int i=0;i<t.size();++i)
+            ++x[t[i]];
+        for(r=0;r<s.size();++r){
+            if(x[s[r]]!=0){
+                ++m[s[r]];
+                if(m[s[r]]<=x[s[r]])
+                    ++count;
+                    while(count==t.size()){
+                        if(r-l+1<n){
+                            n=r-l+1;
+                            ans=s.substr(l,n);
+                        }
+                        if(x[s[l]]!=0){
+                            --m[s[l]];
+                            if(m[s[l]]<x[s[l]])
+                                --count;
+                        }
+                        ++l;
+                    }
+                }
+            }
+        return ans;
+    }
+};
