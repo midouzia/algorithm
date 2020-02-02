@@ -1,0 +1,34 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+char ** letterCombinations(char * digits, int* returnSize){
+    if(!strcmp(digits,"")||digits==NULL){
+        *returnSize=0;
+        return NULL;
+    }
+    char *ch[8]={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    int inlen=strlen(digits);
+    int *num=(int *)malloc(sizeof(int)*inlen);
+    int outlen=1;
+    for(int i=0;i<inlen;i++){
+        num[i]=digits[i]-'0';
+        outlen*=strlen(ch[num[i]-2]);
+    }
+    char **ans=(char **)malloc(sizeof(char *)*outlen);
+    for(int i=0;i<outlen;i++)
+        ans[i]=(char*)malloc(sizeof(char)*(inlen+1));
+    int k=1;
+    for(int i=0;i<inlen;i++){
+        int len=strlen(ch[num[i]-2]);
+        k*=len;
+        int b=outlen/k;
+        for(int j=0;j<k;j++){
+            for(int h=j*b;h<(j+1)*b;h++)
+                ans[h][i]=ch[num[i]-2][j%len];
+        }
+    }   
+    for(int i=0;i<outlen;i++)
+        ans[i][inlen]='\0';
+    *returnSize=outlen;
+    return ans; 
+}

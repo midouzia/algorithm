@@ -1,0 +1,32 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int p=0;
+void dfs(int l,int r,int n,int *returnSize,char **ans,char *m){
+    int i;
+    if(l==n&&r==n){
+        ans[*returnSize]=(char *)malloc(sizeof(char )*(2*n+1));
+        for(i=0;i<2*n;i++)
+            ans[*returnSize][i]=m[i];
+        ans[*returnSize][i]='\0';
+        (*returnSize)++;
+        return ;
+    }
+    if(l<n){
+        m[p++]='(';
+        dfs(l+1,r,n,returnSize,ans,m);
+        p--;
+    }
+    if(r<n&&l>r){
+        m[p++]=')';
+        dfs(l,r+1,n,returnSize,ans,m);
+        p--;
+    }
+}
+char ** generateParenthesis(int n, int* returnSize){
+    char **ans=(char **)malloc(sizeof(char *)*2000);
+    char *m=(char *)malloc(sizeof(char )*(2*n+1));
+    *returnSize=0;
+    dfs(0,0,n,returnSize,ans,m);
+    return ans;
+}
