@@ -1,0 +1,31 @@
+int bj(int a,int b){
+    return a>b?a:b;
+}
+int dfs(int **grid,int gridSize,int x,int i,int j,int n){
+    int a=0,b=0,c=0,d=0,t=0;
+    if(i<0||i>=gridSize||j<0||j>=x||grid[i][j]==0){
+        return n;
+    }
+    t=grid[i][j];
+    grid[i][j]=0;
+    a=dfs(grid,gridSize,x,i+1,j,n+t);
+    b=dfs(grid,gridSize,x,i-1,j,n+t);
+    c=dfs(grid,gridSize,x,i,j+1,n+t);
+    d=dfs(grid,gridSize,x,i,j-1,n+t);
+    grid[i][j]=t;
+    return bj(bj(a,b),bj(c,d));
+}
+int getMaximumGold(int** grid, int gridSize, int* gridColSize){
+    int max=0,x;
+    if(grid==NULL)
+        return 0;
+    for(int i=0;i<gridSize;i++){
+        for(int j=0;j<gridColSize[i];j++){
+            x=gridColSize[i];
+            if(grid[i][j]!=0){
+                max=bj(max,dfs(grid,gridSize,x,i,j,0));
+            }
+        }
+    }
+    return max;
+}

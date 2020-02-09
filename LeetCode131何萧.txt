@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        int start=0;
+        vector<string>subres;
+        vector<vector<string>>ans;
+        dfs(s,start,subres,ans);
+        return ans;
+    }
+    void dfs(string s,int start,vector<string>&subres,vector<vector<string>>&ans){
+        int n=s.size();
+        if(start==n)
+            ans.push_back(subres);
+        for(int i=1;i+start<=n;i++){
+            string t=s.substr(start,i);
+            if(pd(t)){
+                subres.push_back(t);
+                dfs(s,start+i,subres,ans);
+                subres.pop_back();
+            }
+        }
+    }
+    bool pd(string s){
+        int n=s.size();
+        int l=0,r=n-1;
+        while(l<r){
+            if(s[l]!=s[r])
+                return false;
+            l++,r--;
+        }
+        return true;
+    }
+};

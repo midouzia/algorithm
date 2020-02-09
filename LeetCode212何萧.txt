@@ -1,0 +1,58 @@
+class Solution {
+    struct Node{
+        char g;
+        bool finish;
+        string word;
+        Node* child[26];
+        Node(char ch) :g(ch), finish(false){
+            memset(child,0,sizeof(child));
+        }
+    };
+    Node* Trie=new Node(0);
+    vector<vector<int>>move{{1,0},{-1,0},{0,1},{0,-1}};
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        vector<string> ans;
+        if(board.empty())
+            return ans;
+        int m=board.size();
+        int n=board[0].size();
+        vector<vector<bool>> vv(m,vector<bool>(n,false));
+        buildTrie(words);
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j)
+                dfs(board,vv,m,n,i,j,Trie->child[board[i][j]-'a'],ans);
+        }
+        return ans;
+    }
+    void dfs(const vector<vector<char>>&board,vector<vector<bool>>&vv,int m,int n,int x,int y,Node *node,vector<string>& ans){
+        if(x<0||x>=m||y<0||y>=n)return;
+        if(vv[x][y])return;
+        if(!node||node->g!=board[x][y])return;
+        if(!node->word.empty()&&!node->finish){
+            ans.push_back(node->word);
+            node->finish=true;
+        }
+        vv[x][y] = true;
+        for(int i=0;i<26;++i){
+            if(!node->child[i])
+                continue;
+            for(int j=0;j<4;++j)
+               dfs(board,vv,m,n,x+move[j][0],y+move[j][1],node->child[i],ans);
+        }
+        vv[x][y]=false;
+    }
+    void buildTrie(const vector<string>& words){
+        for(auto& word:words)
+            insert(word);
+    }
+    void insert(const string&word){
+        Node* t=Trie;
+        for(auto c:word){
+            if(!t->child[c-'a'])
+                t->child[c-'a']=new Node(c);
+            t=t->child[c-'a'];
+        }
+        t->word=word;
+    }
+};
