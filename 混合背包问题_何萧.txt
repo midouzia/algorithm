@@ -1,0 +1,44 @@
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+struct Good{
+	int kind;
+	int v,w;
+};
+int main(){
+	int n,m;
+	vector<Good> goods;
+	int f[1005]={0};
+	cin>>n>>m;
+	for(int i=0;i<n;i++){
+		int v,w,s;
+		cin>>v>>w>>s;
+		if(s<0)
+			goods.push_back({-1,v,w});
+		else if(s==0)
+			goods.push_back({0,v,w});
+		else{
+			for(int j=1;j<=s;j<<=1){
+				goods.push_back({-1,v*j,w*j});
+				s-=j;
+			}
+			if(s)
+				goods.push_back({-1,v*s,w*s});
+		} 
+	}
+	for(auto good:goods){
+		if(good.kind==-1){
+			for(int i=m;i>=good.v;i--)
+				f[i]=max(f[i],f[i-good.v]+good.w);
+		}
+		else{
+			for(int i=good.v;i<=m;i++)
+				f[i]=max(f[i],f[i-good.v]+good.w);
+		}
+	}
+	cout<<f[m]<<endl;
+	return 0;
+}

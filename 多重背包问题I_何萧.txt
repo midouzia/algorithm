@@ -1,0 +1,19 @@
+#include<stdio.h>
+int max(int a,int b){
+	return a>b?a:b;
+}
+int main(){
+	int n,m;
+	int f[105]={0};
+	scanf("%d %d",&n,&m);
+	for(int i=0;i<n;i++){
+		int v,w,s;
+		scanf("%d %d %d",&v,&w,&s);
+		for(int j=m;j>=0;j--)
+			for(int k=1;k<=s&&k*v<=j;k++){
+				f[j]=max(f[j],f[j-k*v]+k*w);
+			}
+	}
+	printf("%d",f[m]);
+	return 0;
+} 

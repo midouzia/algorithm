@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct wood{
+	int l,w;
+}a[5005];
+int f[5005];
+bool px(const wood a,const wood b){
+	if(a.l==b.l)return a.w>b.w;
+	return a.l>b.l;
+}
+int main(){
+	int n,t=0,ans=1;
+	cin>>n;
+	for(int i=0;i<n;i++)
+		cin>>a[i].l>>a[i].w;
+	sort(a,a+n,px);
+	for(int i=0;i<n;i++){
+		if(!f[i]){
+			t=a[i].w;
+			for(int j=i+1;j<n;j++){
+				if(!f[j]){
+					if(t>=a[j].w){
+						t=a[j].w;
+						f[j]=1;
+					}
+				}
+			}
+		}
+	}
+	for(int i=1;i<n;i++){
+		if(!f[i])
+			ans++;
+	}
+	cout<<ans<<endl;
+	return 0;
+}

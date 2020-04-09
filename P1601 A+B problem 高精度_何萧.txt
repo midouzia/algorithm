@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    char a[1005],b[1005];
+    int aa[1005],bb[1005],c[1005];
+    int len1,len2,len3;
+    int x;
+    scanf("%s",a);
+    scanf("%s",b);
+    len1=strlen(a);
+    len2=strlen(b);
+    for(int i=0;i<=len1-1;i++)
+		aa[len1-i]=a[i]-48;
+    for(int i=0;i<=len2-1;i++)
+		bb[len2-i]=b[i]-48;
+    len3=1;
+    x=0;
+    while(len3<=len1||len3<=len2){
+        c[len3]=aa[len3]+bb[len3]+x;
+        x=c[len3]/10;
+        c[len3]%=10;
+        len3++;
+    }
+    c[len3]=x;
+    if(c[len3]==0)
+    	len3--;
+    for(int i=len3;i>=1;i--)
+		printf("%d",c[i]);
+    return 0;
+}

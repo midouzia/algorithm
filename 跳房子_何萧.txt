@@ -1,0 +1,45 @@
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<stdlib.h>
+using namespace std;
+char a[50][50];
+int dx[5]={-1,0,1,0},dy[5]={0,1,0,-1};
+string s;
+bool ans[1000005];
+int t=0;
+void dfs(int x,int y,int z,string s){
+	if(z>5){
+		int n=atoi(s.c_str());
+		if(ans[n]==false){
+			ans[n]=true;
+			t++;
+		}
+	}
+	else{
+		for(int i=0;i<4;i++){
+			int xx=x+dx[i],yy=y+dy[i];
+			if(xx>5||yy>5||xx<=0||yy<=0)
+				continue;
+			if(a[xx][yy]==' ')
+				continue;
+			dfs(xx,yy,z+1,s+a[xx][yy]);
+		}
+	}
+}
+int main(){
+	memset(ans,false,sizeof(ans));
+	for(int i=1;i<=5;i++)
+		for(int j=1;j<=5;j++)
+			cin>>a[i][j];
+	for(int i=1;i<=5;i++)
+		for(int j=1;j<=5;j++){
+			s=a[i][j];
+			dfs(i,j,1,s);
+			s="";
+		}
+	cout<<t<<endl;
+	return 0;
+}
